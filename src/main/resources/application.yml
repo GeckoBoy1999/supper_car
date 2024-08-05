@@ -1,0 +1,91 @@
+server:
+  port: 8080
+  # undertow 配置
+  undertow:
+    # HTTP post内容的最大大小。当值为-1时，默认值为大小是无限的
+    max-http-post-size: -1
+    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
+    # 每块buffer的空间大小,越小的空间被利用越充分
+    buffer-size: 512
+    # 是否分配的直接内存
+    direct-buffers: true
+    threads:
+      # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+      io: 8
+      # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+      worker: 256
+
+spring:
+  application:
+    name: super_car
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  profiles:
+    active: dev
+
+
+#接口版本,用于做灰度版本控制
+api:
+  version: v1
+
+logging:
+  config: classpath:config/logback.xml
+  level:
+    com.leder.super_car: info
+
+
+#平台默认用户信息
+default:
+  nickNamePrefix: 星球居民
+  headImage: http://154.201.70.143:9000/images/car/2024-08-04/66af12a8387dc5c0a292d186.jpg
+
+
+
+
+
+#全局异常处理配置
+graceful-response:
+  # 自定义Response类的全限定名，默认为空。
+  # 配置response-class-full-name后，response-style将不再生效
+  response-class-full-name:
+  # 是否打印异常日志，默认为false
+  print-exception-in-global-advice: false
+  # Response风格，不配置默认为0
+  response-style: 0
+  # 自定义的成功响应码，不配置则为0
+  default-success-code: 200
+  # 自定义的成功提示，默认为ok
+  default-success-msg: success
+  # 自定义的失败响应码，默认为1
+  default-error-code: 500
+  # 自定义的失败提示，默认为error
+  default-error-msg: error
+  # 全局的参数校验错误码，默认等于default-error-code
+  default-validate-error-code: 510
+  # 例外包路径(支持数字, *和**通配符匹配)，该包路径下的controller将被忽略处理
+  exclude-packages:
+  # 设置是否将原生异常错误信息detailMessage字段填充到Response的msg中
+  # 默认为false，即不打开
+  origin-exception-using-detail-message: true
+
+
+############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
+sa-token:
+  # token 名称（同时也是 cookie 名称）
+  token-name: Authorization
+  # token 有效期（单位：秒） 默认30天，-1 代表永久有效
+  timeout: 2592000
+  # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
+  active-timeout: -1
+  # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
+  is-concurrent: false
+  # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）
+  is-share: false
+  # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: true
+  # jwt秘钥DD
+  jwt-secret-key: oaO14848on468aw4ddaWW178W81LNIuuO1787

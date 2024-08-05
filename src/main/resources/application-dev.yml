@@ -1,0 +1,128 @@
+spring:
+  #数据库配置
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://154.201.70.143:3306/may_mao?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC&autoReconnect=true
+    username: may_mao
+    password: sNYNcW7H7MHJxySG
+    druid:
+      initial-size: 10                                       # 初始化大小
+      min-idle: 20                                          # 最小连接数
+      max-active: 20                                        # 最大连接数
+      max-wait: 60000                                       # 获取连接时的最大等待时间
+      min-evictable-idle-time-millis: 300000                # 一个连接在池中最小生存的时间，单位是毫秒
+      time-between-eviction-runs-millis: 60000              # 多久才进行一次检测需要关闭的空闲连接，单位是毫秒
+      filters: stat,wall                                    # 配置扩展插件：stat-监控统计，log4j-日志，wall-防火墙（防止SQL注入），去掉后，监控界面的sql无法统计
+      validation-query: SELECT 1                            # 检测连接是否有效的 SQL语句，为空时以下三个配置均无效
+      test-on-borrow: false                                  # 申请连接时执行validationQuery检测连接是否有效，默认true，开启后会降低性能
+      test-on-return: false                                  # 归还连接时执行validationQuery检测连接是否有效，默认false，开启后会降低性能
+      test-while-idle: true                                 # 申请连接时如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效，默认false，建议开启，不影响性能
+      stat-view-servlet:
+        enabled: true                                       # 是否开启 StatViewServlet
+        allow: 127.0.0.1                                    # 访问监控页面 白名单，默认127.0.0.1
+        deny:                                               # 访问监控页面 黑名单
+        login-username: admin                               # 访问监控页面 登陆账号
+        login-password: admin                               # 访问监控页面 登陆密码
+      filter:
+        stat:
+          enabled: true                                     # 是否开启 FilterStat，默认true
+          log-slow-sql: true                                # 是否开启 慢SQL 记录，默认false
+          slow-sql-millis: 5000                             # 慢 SQL 的标准，默认 3000，单位：毫秒
+          merge-sql: false                                  # 合并多个连接池的监控数据，默认false
+
+
+  #redis配置
+  redis:
+    host: 154.201.70.143
+    password: liu521521
+    database: 1
+    port: 6379
+    lettuce:
+      pool:
+        max-active: 500
+        max-idle: 10
+        min-idle: 5
+        max-wait: -1
+      shutdown-timeout: 3000
+
+
+# mybatis-plus配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.leder.super_car.pojo.po
+  global-config:
+    # 关闭MP3.0自带的banner
+    banner: false
+    db-config:
+      #主键类型  0:"数据库ID自增", 1:"不操作", 2:"用户输入ID",3:"数字型snowflake", 4:"全局唯一ID UUID", 5:"字符串型snowflake";
+      id-type: assign_id
+      #字段策略
+      insert-strategy: not_null
+      update-strategy: not_null
+      where-strategy: not_null
+      #驼峰下划线转换
+      table-underline: true
+      # 逻辑删除配置
+      # 逻辑删除全局值（1表示已删除，这也是Mybatis Plus的默认配置）
+      logic-delete-value: 1
+      # 逻辑未删除全局值（0表示未删除，这也是Mybatis Plus的默认配置）
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    jdbc-type-for-null: 'null'
+
+
+mybatis-plus-join:
+  #是否打印 mybatis plus join banner 默认true
+  banner: false
+  #全局启用副表逻辑删除(默认true) 关闭后关联查询不会加副表逻辑删除
+  sub-table-logic: true
+  #拦截器MappedStatement缓存(默认true)
+  ms-cache: true
+  #表别名(默认 t)
+  table-alias: t
+  #副表逻辑删除条件的位置，支持where、on默认 where （1.4.4+）
+  logic-del-type: where
+
+
+############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
+sa-token:
+  # token 名称（同时也是 cookie 名称）
+  token-name: Authorization
+  # token 有效期（单位：秒） 默认60天，-1 代表永久有效
+  timeout: 86400
+  # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
+  active-timeout: -1
+  # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
+  is-concurrent: false
+  # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）
+  is-share: true
+  # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+  token-style: random-128
+  # 是否输出操作日志
+  is-log: false
+
+
+dromara:
+  x-file-storage: #文件存储配置
+    default-platform: minio-1 #默认使用的存储平台
+    thumbnail-suffix: ".min.jpg" #缩略图后缀，例如【.min.jpg】【.png】
+    ##################################################################
+    ### MinIO Plus Config
+    ##################################################################
+    minio:
+      - platform: minio-1 # 存储平台标识
+        enable-storage: true  # 启用存储
+        access-key: P9mlrUewCxSf3bhi45ec
+        secret-key: 3g1ZGg94zK0TvgKoAyAgUgnVk7aLbAzUs7NntY40
+        end-point: http://154.201.70.143:9000/
+        bucket-name: images
+        domain: http://154.201.70.143:9000/images/ # 访问域名，注意“/”结尾，例如：http://minio.abc.com/abc/
+        base-path: car/ # 基础路径
+
+
+
+
+

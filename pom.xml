@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.3</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>com.leder</groupId>
+    <artifactId>super_car</artifactId>
+    <version>0.0.1</version>
+    <name>super_car</name>
+    <description>super_car</description>
+
+
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <fastjson.version>1.2.60</fastjson.version>
+        <druid.version>1.2.16</druid.version>
+        <java.version>17</java.version>
+        <mysql.version>8.0.33</mysql.version>
+        <hutool.version>5.8.21</hutool.version>
+        <mybatis.plus.join.version>1.4.6</mybatis.plus.join.version>
+        <mongo.plus.version>2.0.4.1</mongo.plus.version>
+        <encrypt.version>1.2.3</encrypt.version>
+        <mybatis.plus.version>3.5.3.1</mybatis.plus.version>
+        <xk.time.version>3.2.4</xk.time.version>
+        <lastVersion>1.0.4</lastVersion>
+        <p6spy.version>3.9.1</p6spy.version>
+        <redisson.version>3.24.3</redisson.version>
+        <xxl.job.version>2.3.1</xxl.job.version>
+        <rocketmq.version>2.2.3</rocketmq.version>
+        <guava.version>32.1.2-jre</guava.version>
+        <cloud.rocketmq.version>1.8.0</cloud.rocketmq.version>
+        <elasticsearch.version>7.12.1</elasticsearch.version>
+        <sa.token.version>1.37.0</sa.token.version>
+        <lastVersion>1.0.4</lastVersion>
+        <aliyun.sms.version>4.3.3</aliyun.sms.version>
+        <rocketmq.version>2.2.3</rocketmq.version>
+        <alipay.version>4.38.149.ALL</alipay.version>
+        <x.file.version>2.2.1</x.file.version>
+        <minio.version>8.5.2</minio.version>
+        <response.version>3.5.2-boot2</response.version>
+    </properties>
+
+    <dependencies>
+
+        <!--Spring Boot的核心启动器，包含了自动配置、日志和YAML-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <!--去掉logback配置，要不然冲突-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <!-- 引入SpringBoot的log4j2依赖启动坐标；这坐标包含具体的log4j2的坐标和连接Slf4j的适配器 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+
+
+
+        <!-- spring-boot 配置参数 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+
+        <!-- spring-boot 参数校验 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- spring-boot websocket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+        <!-- spring-boot整合 redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <!-- web 容器使用 undertow -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
+        <!--mysql-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+
+
+        <!-- 糊涂工具类 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>poi-ooxml</artifactId>
+                    <groupId>org.apache.poi</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 阿里数据库连接池 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+
+
+        <!-- 阿里云短信配置 -->
+
+
+        <!-- mybatis-plus 增强CRUD -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis.plus.version}</version>
+        </dependency>
+
+
+        <!-- mybatis_plus连表查询 -->
+        <dependency>
+            <groupId>com.github.yulichang</groupId>
+            <artifactId>mybatis-plus-join-boot-starter</artifactId>
+            <version>${mybatis.plus.join.version}</version>
+        </dependency>
+
+
+        <!-- 参数加解密 -->
+        <dependency>
+            <groupId>cn.licoy</groupId>
+            <artifactId>encrypt-body-spring-boot-starter</artifactId>
+            <version>${encrypt.version}</version>
+        </dependency>
+
+
+        <!-- Mongo-Plus -->
+        <!--        <dependency>-->
+        <!--            <groupId>com.gitee.anwena</groupId>-->
+        <!--            <artifactId>mongo-plus-boot-starter</artifactId>-->
+        <!--            <version>${mongo.plus.version}</version>-->
+        <!--        </dependency>-->
+
+
+        <!-- 超级日期操作工具 -->
+        <dependency>
+            <groupId>com.github.xkzhangsan</groupId>
+            <artifactId>xk-time</artifactId>
+            <version>${xk.time.version}</version>
+        </dependency>
+
+
+
+        
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>${redisson.version}</version>
+        </dependency>
+
+        <!--sql日志打印-->
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+            <version>${p6spy.version}</version>
+        </dependency>
+
+        <!--xxl-job定时任务-->
+        <dependency>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-core</artifactId>
+            <version>${xxl.job.version}</version>
+        </dependency>
+
+        <!--        &lt;!&ndash;rocketmq消息队列&ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.apache.rocketmq</groupId>-->
+        <!--            <artifactId>rocketmq-spring-boot-starter</artifactId>-->
+        <!--            <version>${rocketmq.version}</version>-->
+        <!--        </dependency>-->
+
+
+        <!--        &lt;!&ndash;rocketmq增强&ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.liu</groupId>-->
+        <!--            <artifactId>cloud-rocket-starter</artifactId>-->
+        <!--            <version>${cloud.rocketmq.version}</version>-->
+        <!--        </dependency>-->
+
+
+
+        <!--谷歌工具包-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+
+        <!--参数校验-->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+
+
+        <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-redis-jackson</artifactId>
+            <version>${sa.token.version}</version>
+        </dependency>
+
+        <!-- Sa-Token 整合 SpringBoot -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot-starter</artifactId>
+            <version>${sa.token.version}</version>
+        </dependency>
+
+        <!-- Sa-Token 整合 jwt -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-jwt</artifactId>
+            <version>${sa.token.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+
+        <!-- oss对象存储服务 -->
+
+        <dependency>
+            <groupId>org.dromara.x-file-storage</groupId>
+            <artifactId>x-file-storage-spring</artifactId>
+            <version>${x.file.version}</version>
+        </dependency>
+
+
+        <!-- minio对象存储服务 -->
+
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${minio.version}</version>
+        </dependency>
+
+        <!-- 优雅响应处理组件 -->
+        <dependency>
+            <groupId>com.feiniaojin</groupId>
+            <artifactId>graceful-response</artifactId>
+            <version>${response.version}</version>
+        </dependency>
+
+
+
+        <!-- 阿里云短信配置 -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>${aliyun.sms.version}</version>
+        </dependency>
+
+        <!-- 消息队列 -->
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
+            <version>${rocketmq.version}</version>
+        </dependency>
+
+        <!-- 支付宝支付 -->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>${alipay.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-open</artifactId>
+            <version>4.6.0</version>
+        </dependency>
+
+
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
